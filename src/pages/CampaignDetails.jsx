@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ethers } from 'ethers';
 
 import { useStateContext } from '../context';
 import { CountBox, CustomButton, Loader } from '../components';
@@ -25,7 +24,7 @@ const CampaignDetails = () => {
   }
 
   useEffect(() => {
-    if(contract) fetchDonators();
+    if(contract) fetchDonators().then(r => console.log(r));
   }, [contract, address])
 
   const handleDonate = async () => {
@@ -86,7 +85,10 @@ const CampaignDetails = () => {
 
               <div className="mt-[20px] flex flex-col gap-4">
                 {donators.length > 0 ? donators.map((item, index) => (
-                  <div key={`${item.donator}-${index}`} className="flex justify-between items-center gap-4">
+                  <div
+                      // key={`${item.donator}-${index}`}
+                      className="flex justify-between items-center gap-4"
+                  >
                     <p className="font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll">{index + 1}. {item.donator}</p>
                     <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-ll">{item.donation}</p>
                   </div>

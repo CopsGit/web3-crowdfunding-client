@@ -17,7 +17,7 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    if(contract) fetchCampaigns();
+    if(contract) fetchCampaigns().then();
   }, [address, contract]);
 
   return (
