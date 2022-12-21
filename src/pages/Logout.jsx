@@ -12,11 +12,12 @@ const Logout = () => {
             <div className="m-auto">
                 <CustomButton
                     btnType="button"
-                    title={address ? 'Logout' : 'You are not logged in, login here'}
+                    title={address ? 'Disconnect' : 'You are not connected, connect here'}
                     styles={address ? 'bg-[#1dc071]' : 'bg-[#8c6dfd]'}
                     handleClick={() => {
                         if(address) {
                             disconnect();
+                            // window.ethereum.disconnect()
                             navigate('/');
                         }
                         else connect();

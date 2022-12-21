@@ -10,7 +10,7 @@ import { checkIfImage } from '../utils';
 const CreateCampaign = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { createCampaign } = useStateContext();
+  const { createCampaign, address, connect } = useStateContext();
   const [form, setForm] = useState({
     name: '',
     title: '',
@@ -104,11 +104,22 @@ const CreateCampaign = () => {
           />
 
           <div className="flex justify-center items-center mt-[40px]">
-            <CustomButton 
-              btnType="submit"
-              title="Submit new campaign"
-              styles="bg-[#1dc071]"
-            />
+            {
+                address ? (
+                    <CustomButton
+                        btnType="submit"
+                        title="Submit new campaign"
+                        styles="bg-[#1dc071]"
+                    />
+                ) : (
+                    <CustomButton
+                        btnType="button"
+                        title="You are not logged in, login here"
+                        styles="bg-[#8c6dfd]"
+                        handleClick={() => connect()}
+                    />
+                )
+            }
           </div>
       </form>
     </div>
