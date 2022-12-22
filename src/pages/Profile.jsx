@@ -6,6 +6,8 @@ import {useStateContext} from '../context'
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [campaigns, setCampaigns] = useState([]);
+    const [totalAmountRaised, setTotalAmountRaised] = useState(0);
+    const [totalAmountTargeted, setTotalAmountTargeted] = useState(0);
 
     const {address, contract, getUserCampaigns} = useStateContext();
 
@@ -14,6 +16,8 @@ const Profile = () => {
         setIsLoading(true);
         const data = await getUserCampaigns();
         setCampaigns(data);
+        setTotalAmountRaised(data.reduce((acc, curr) => parseFloat(acc.amountCollected) + parseFloat(curr.amountCollected)));
+        setTotalAmountTargeted(data.reduce((acc, curr) => parseFloat(acc.target) + parseFloat(curr.target)));
         setIsLoading(false);
     }
 
@@ -21,8 +25,6 @@ const Profile = () => {
         if (contract) fetchCampaigns().then();
     }, [address, contract]);
 
-    const totalAmountRaised = campaigns.reduce((acc, curr) => parseFloat(acc.amountCollected) + parseFloat(curr.amountCollected));
-    const totalAmountTargeted = campaigns.reduce((acc, curr) => parseFloat(acc.target) + parseFloat(curr.target));
     return (
         <div>
             <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
