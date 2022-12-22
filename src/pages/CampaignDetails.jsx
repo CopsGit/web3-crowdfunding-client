@@ -50,7 +50,7 @@ const CampaignDetails = () => {
         </div>
 
         <div className="flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]">
-          <CountBox title="Days Left" value={remainingDays} />
+          <CountBox title="Days Left" value={remainingDays > 0 ? remainingDays : 0} />
           <CountBox title={`Raised of ${state.target}`} value={state.amountCollected} />
           <CountBox title="Total Backers" value={donators.length} />
         </div>
@@ -123,8 +123,9 @@ const CampaignDetails = () => {
 
               <CustomButton 
                 btnType="button"
-                title="Fund Campaign"
-                styles="w-full bg-[#8c6dfd]"
+                disable={remainingDays <= 0}
+                title={remainingDays > 0 ? "Fund Campaign" : 'Campaign Ended'}
+                styles={remainingDays > 0 ? "w-full bg-[#1dc071] hover:bg-[#4acd8d]" : "w-full bg-[#3a3a43] hover:bg-[#3a3a43]"}
                 handleClick={handleDonate}
               />
             </div>
