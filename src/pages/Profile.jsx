@@ -21,11 +21,16 @@ const Profile = () => {
   }, [address, contract]);
 
   return (
-    <DisplayCampaigns 
-      title="All Campaigns"
-      isLoading={isLoading}
-      campaigns={campaigns}
-    />
+      <div>
+        <div className="flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+
+        </div>
+        <DisplayCampaigns
+            title="All Campaigns"
+            isLoading={isLoading}
+            campaigns={campaigns}
+        />
+      </div>
   )
 }
 
