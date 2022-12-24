@@ -6,18 +6,21 @@ import {useStateContext} from '../context'
 const Profile = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [campaigns, setCampaigns] = useState([]);
+    const [campaignsDonatedTo, setCampaignsDonatedTo] = useState([]);
     const [totalAmountRaised, setTotalAmountRaised] = useState(0);
     const [totalAmountTargeted, setTotalAmountTargeted] = useState(0);
 
-    const {address, contract, getUserCampaigns} = useStateContext();
+    const {address, contract, getUserCampaigns, getCampaignsDonatedTo} = useStateContext();
 
-    console.log(campaigns)
+    // console.log(campaignsDonatedTo)
     const fetchCampaigns = async () => {
         setIsLoading(true);
         const data = await getUserCampaigns();
+        const data2 = await getCampaignsDonatedTo();
         setCampaigns(data);
-        setTotalAmountRaised(data.reduce((acc, curr) => parseFloat(acc.amountCollected) + parseFloat(curr.amountCollected)));
-        setTotalAmountTargeted(data.reduce((acc, curr) => parseFloat(acc.target) + parseFloat(curr.target)));
+        setCampaignsDonatedTo(data2);
+        setTotalAmountRaised(data.length>0 ? data.reduce((acc, curr) => parseFloat(acc.amountCollected) + parseFloat(curr.amountCollected)) : 0);
+        setTotalAmountTargeted(data.length>0 ? data.reduce((acc, curr) => parseFloat(acc.target) + parseFloat(curr.target)) : 0);
         setIsLoading(false);
     }
 
@@ -34,7 +37,7 @@ const Profile = () => {
                     </div>
                     <p className="text-[#fff] text-[16px] font-epilogue font-semibold leading-[18px]">{address}</p>
                     <p className="text-[#fff] text-[16px] font-epilogue font-semibold leading-[18px]">
-                        Total amount raised: {totalAmountRaised} ETH / {totalAmountTargeted} ETH ({(totalAmountRaised / totalAmountTargeted).toFixed(3) * 100}%)
+                        Total amount raised: {totalAmountRaised} ETH / {totalAmountTargeted} ETH ({totalAmountTargeted !== 0 ? (totalAmountRaised / totalAmountTargeted).toFixed(3) * 100 : 0}%)
                     </p>
                 </div>
             </div>
@@ -42,6 +45,11 @@ const Profile = () => {
                 title="All Campaigns"
                 isLoading={isLoading}
                 campaigns={campaigns}
+            />
+            <DisplayCampaigns
+                title="All Campaigns you have donated to"
+                isLoading={isLoading}
+                campaigns={campaignsDonatedTo}
             />
         </div>
     )
