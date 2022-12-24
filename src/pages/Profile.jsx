@@ -12,13 +12,13 @@ const Profile = () => {
 
     const {address, contract, getUserCampaigns, getCampaignsDonatedTo} = useStateContext();
 
-    // console.log(campaignsDonatedTo)
     const fetchCampaigns = async () => {
         setIsLoading(true);
         const data = await getUserCampaigns();
         const data2 = await getCampaignsDonatedTo();
         setCampaigns(data);
         setCampaignsDonatedTo(data2);
+        console.log(data2)
         setTotalAmountRaised(data.length>0 ? data.reduce((acc, curr) => parseFloat(acc.amountCollected) + parseFloat(curr.amountCollected)) : 0);
         setTotalAmountTargeted(data.length>0 ? data.reduce((acc, curr) => parseFloat(acc.target) + parseFloat(curr.target)) : 0);
         setIsLoading(false);
@@ -42,12 +42,12 @@ const Profile = () => {
                 </div>
             </div>
             <DisplayCampaigns
-                title="All Campaigns"
+                title="All Campaigns You Created"
                 isLoading={isLoading}
                 campaigns={campaigns}
             />
             <DisplayCampaigns
-                title="All Campaigns you have donated to"
+                title="All Campaigns You Donated"
                 isLoading={isLoading}
                 campaigns={campaignsDonatedTo}
             />
